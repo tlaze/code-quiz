@@ -12,7 +12,7 @@ section{
     text-align: center;
 }
 
-button{
+.startButton{
     background-color:purple;
     color:white;
     border-radius: 50px;
