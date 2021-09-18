@@ -4,8 +4,11 @@ p{
     bottom:15px;
 }
 
+body{
+    height:auto;
+}
 section{
-    margin-top:100px;
+    margin-top:150px;
     text-align: center;
 }
 
@@ -13,4 +16,14 @@ button{
     background-color:purple;
     color:white;
     border-radius: 50px;
+}
+
+footer{
+    position:absolute;
+    bottom:0;
+    width:100%;
+}
+
+footer h6{
+    text-align: center;
 }
