@@ -14,13 +14,13 @@ var showGamePage = document.getElementById('gamePage');
 var hideContent = document.getElementById('startingPage'); //Delete Later***
 hideContent.style.display = 'none'; //Delete LATER***
 
-
+var qNum = 1;
 
 var quizQuestions = 
 [
     {
     'question': 'question 1 text',
-    'choice': [' q1 choice 1', 'q1  choice 2', 'q1 choice 3', 'q1 choice 4'],
+    'choice': ['q1 choice 1', 'q1 choice 2', 'q1 choice 3', 'q1 choice 4'],
     'answer': '4'
     },
     {
@@ -42,7 +42,7 @@ var quizQuestions =
 
 //Stores quizQuestions in local storage
 var displayedQuestion = document.getElementById('questionText');
-localStorage.setItem('storedQuestion', JSON.stringify(quizQuestions[0].question));
+// localStorage.setItem('storedQuestion', JSON.stringify(quizQuestions[qNum].question));    Might Not Need
 
 //Displays question in #questionText
 displayedQuestion.textContent = JSON.parse(localStorage.getItem("storedQuestion"));
@@ -50,17 +50,57 @@ displayedQuestion.textContent = JSON.parse(localStorage.getItem("storedQuestion"
 
 //Stores all possible choices per question into local storage
 var allButtons = document.getElementsByClassName('choices');
-localStorage.setItem('possibleChoices', JSON.stringify(quizQuestions[0].choice));
 
+// console.log(allButtons);
+
+var uniqueButton = document.getElementsByTagName('choices');
+
+localStorage.setItem('choices', JSON.stringify(quizQuestions[qNum].choice));
+uniqueButton = JSON.parse(localStorage.getItem('choices'));
 //Retrieves the possible choices per question from local storage and parses them back into an array
-var uniqueButton= JSON.parse(localStorage.getItem("possibleChoices"))
 console.log(uniqueButton);
 
-//Assigns each choice button a unique possible answer
-for(var i = 0; i < allButtons.length;i++){
-    allButtons[i].textContent = uniqueButton[i];
+
+
+
+function gamePlay(){
+    if(qNum < quizQuestions.length){
+        newQuestion();
+        //Assigns each choice button a unique possible answer
+        for(var i = 0; i < allButtons.length;i++){
+            allButtons[i].textContent = uniqueButton[i];
+
+        } 
+        for(var i = 0; i < quizQuestions.length; i++){
+            allButtons[i].addEventListener('click', choiceMade);
+
+        }
+        qNum++;
+    }
+    else{
+        console.log("END!");
+    }
+    
 }
 
+function newQuestion(){
+    // Stores the text for each question
+    var questionNumber = JSON.stringify(quizQuestions[qNum].question);
+    console.log(questionNumber);
+    displayedQuestion.textContent = questionNumber;
+
+
+
+
+
+}
+
+function choiceMade(event){
+    var userChoice = event.target.id;
+    console.log(userChoice);
+    gamePlay();
+    
+}
 
 
 
@@ -92,3 +132,4 @@ var correctAnswer = document.querySelectorAll('answer');
 //     }
 // }
 
+gamePlay();
