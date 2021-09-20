@@ -1,4 +1,4 @@
-p{
+nav>p{
     float:right;
     position:relative;
     bottom:15px;
@@ -7,7 +7,7 @@ p{
 body{
     height:auto;
 }
-section{
+#startingPage{
     margin-top:150px;
     text-align: center;
 }
@@ -17,6 +17,15 @@ section{
     color:white;
     border-radius: 50px;
 }
+
+#gamePage{
+    margin-top:50px;
+    text-align: center;
+}
+
+
+
+
 
 footer{
     position:absolute;

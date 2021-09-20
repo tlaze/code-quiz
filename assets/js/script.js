@@ -1,8 +1,27 @@
-console.log(document.querySelector(".startButton"));
+//Assigns button variable to the startButton class
 var button = document.querySelector(".startButton");
 
-button.addEventListener("click",buttonClicked);
+//When the start button is clicked, the startButtonClicked function will run
+button.addEventListener("click",startButtonClicked);
 
-function buttonClicked(){
-    console.log("button clicked");
+var showGamePage = document.getElementById('gamePage');
+showGamePage.style.display = 'none';
+
+
+
+
+
+//Hides the starting page once the start quiz button is clicked
+function startButtonClicked(){
+    console.log('button clicked');
+    var hideContent = document.getElementById('startingPage');
+
+    if(hideContent.style.display ==='none'){
+        hideContent.style.display = 'block';
+    }
+    else{
+        showGamePage.style.display = 'block';
+        hideContent.style.display = 'none';
+    }
 }
+
