@@ -42,16 +42,30 @@ var quizQuestions =
 
 //Stores quizQuestions in local storage
 var displayedQuestion = document.getElementById('questionText');
-localStorage.setItem('questions', JSON.stringify(quizQuestions));
+localStorage.setItem('storedQuestion', JSON.stringify(quizQuestions[0].question));
 
 //Displays question in #questionText
-var ex = JSON.parse(localStorage.getItem("questions"));
-// console.log(ex[0].question); Consoles the first question
-displayedQuestion.textContent = ex[0].question;
+displayedQuestion.textContent = JSON.parse(localStorage.getItem("storedQuestion"));
+
+
+//Stores all possible choices per question into local storage
+var allButtons = document.getElementsByClassName('choices');
+localStorage.setItem('possibleChoices', JSON.stringify(quizQuestions[0].choice));
+
+//Retrieves the possible choices per question from local storage and parses them back into an array
+var uniqueButton= JSON.parse(localStorage.getItem("possibleChoices"))
+console.log(uniqueButton);
+
+//Assigns each choice button a unique possible answer
+for(var i = 0; i < allButtons.length;i++){
+    allButtons[i].textContent = uniqueButton[i];
+}
 
 
 
-var displayedChoices = document.getElementsByClassName('choices');
+
+
+
 var correctAnswer = document.querySelectorAll('answer');
 
 
