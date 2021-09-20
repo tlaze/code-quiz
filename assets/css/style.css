@@ -19,13 +19,18 @@ body{
 }
 
 #gamePage{
-    margin-top:50px;
+    margin-top:100px;
     text-align: center;
 }
 
-
-
-
+#gamePage button{
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:35px;
+    padding:10px;
+    
+}
 
 footer{
     position:absolute;
