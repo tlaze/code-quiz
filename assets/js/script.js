@@ -14,7 +14,7 @@ var showGamePage = document.getElementById('gamePage');
 var hideContent = document.getElementById('startingPage'); //Delete Later***
 hideContent.style.display = 'none'; //Delete LATER***
 
-var qNum = 1;
+var qNum = 0;
 
 var quizQuestions = 
 [
@@ -42,7 +42,6 @@ var quizQuestions =
 
 //Stores quizQuestions in local storage
 var displayedQuestion = document.getElementById('questionText');
-// localStorage.setItem('storedQuestion', JSON.stringify(quizQuestions[qNum].question));    Might Not Need
 
 //Displays question in #questionText
 displayedQuestion.textContent = JSON.parse(localStorage.getItem("storedQuestion"));
@@ -51,19 +50,20 @@ displayedQuestion.textContent = JSON.parse(localStorage.getItem("storedQuestion"
 //Stores all possible choices per question into local storage
 var allButtons = document.getElementsByClassName('choices');
 
-// console.log(allButtons);
-
+//Stores the quiz choices in local storage and retrives it with uniqueButton
 var uniqueButton = document.getElementsByTagName('choices');
-
 localStorage.setItem('choices', JSON.stringify(quizQuestions[qNum].choice));
 uniqueButton = JSON.parse(localStorage.getItem('choices'));
-//Retrieves the possible choices per question from local storage and parses them back into an array
-console.log(uniqueButton);
+
+//Stores correct answers in local storage and retrieves it as a string
+var correctAnswers = document.getElementsByName('answer');
+localStorage.setItem('answers', JSON.stringify(quizQuestions[qNum].answer));
+correctAnswers = JSON.parse(localStorage.getItem('answers'));
 
 
-
-
+//Central hub where program is sent to other functions and returned 
 function gamePlay(){
+    //Continues until user reaches last question
     if(qNum < quizQuestions.length){
         newQuestion();
         //Assigns each choice button a unique possible answer
@@ -71,10 +71,12 @@ function gamePlay(){
             allButtons[i].textContent = uniqueButton[i];
 
         } 
+        //Adds click eventListner to each button
         for(var i = 0; i < quizQuestions.length; i++){
             allButtons[i].addEventListener('click', choiceMade);
 
         }
+        //iterates to the next question
         qNum++;
     }
     else{
@@ -83,36 +85,28 @@ function gamePlay(){
     
 }
 
+//Changes the text for each question
 function newQuestion(){
     // Stores the text for each question
     var questionNumber = JSON.stringify(quizQuestions[qNum].question);
-    console.log(questionNumber);
     displayedQuestion.textContent = questionNumber;
-
-
-
-
-
 }
 
+//Each button has unique identier in order to determine correct answer
 function choiceMade(event){
     var userChoice = event.target.id;
     console.log(userChoice);
+    console.log(correctAnswers);
+
+    if(userChoice === correctAnswers){
+        console.log('correct!');
+    }
+    else{
+        console.log("Wrong!");
+    }
     gamePlay();
     
 }
-
-
-
-
-
-var correctAnswer = document.querySelectorAll('answer');
-
-
-
-
-
-
 
 
 //Hides the starting page once the start quiz button is clicked
@@ -131,5 +125,4 @@ var correctAnswer = document.querySelectorAll('answer');
 //         quizGameplay();
 //     }
 // }
-
 gamePlay();
