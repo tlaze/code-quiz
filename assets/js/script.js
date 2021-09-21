@@ -66,13 +66,14 @@ var correctAnswers = document.getElementsByName('answer');
 //Central hub where program is sent to other functions and returned 
 function gamePlay(){
 
-    //Updates local storage to update choices each round
-    localStorage.setItem('choices', JSON.stringify(quizQuestions[qNum].choice));
-    uniqueButton = JSON.parse(localStorage.getItem('choices'));
-
     //Continues until user reaches last question
     if(qNum < quizQuestions.length){
+
+    //Updates local storage to update choices each round
+        localStorage.setItem('choices', JSON.stringify(quizQuestions[qNum].choice));
+        uniqueButton = JSON.parse(localStorage.getItem('choices'));
         newQuestion();
+
         //Assigns each choice button a unique possible answer
         for(var i = 0; i < allButtons.length;i++){
             allButtons[i].textContent = uniqueButton[i];
