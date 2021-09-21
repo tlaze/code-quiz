@@ -26,16 +26,21 @@ var quizQuestions =
     {
     'question': 'question 2 text',
     'choice': ['q2 choice 1', 'q2 choice 2', 'q2 choice 3', 'q2 choice 4'],
-    'answer': '3' 
+    'answer': '4' 
     },
     {
     'question': 'question 3 text',
     'choice': ['q3 choice 1', 'q3 choice 2', 'q3 choice 3', 'q3 choice 4'],
-    'answer': '2' 
+    'answer': '3' 
     },
     {
     'question': 'question 4 text',
     'choice': ['q4 choice 1', 'q4 choice 2', 'q4 choice 3', 'q4 choice 4'],
+    'answer': '2' 
+    },
+    {
+    'question': 'question 5 text',
+    'choice': ['q5 choice 1', 'q5 choice 2', 'q5 choice 3', 'q5 choice 4'],
     'answer': '1' 
     },
 ]
@@ -56,8 +61,6 @@ var uniqueButton = document.getElementsByTagName('choices');
 
 //Stores correct answers in local storage and retrieves it as a string
 var correctAnswers = document.getElementsByName('answer');
-localStorage.setItem('answers', JSON.stringify(quizQuestions[qNum].answer));
-correctAnswers = JSON.parse(localStorage.getItem('answers'));
 
 
 //Central hub where program is sent to other functions and returned 
@@ -76,12 +79,10 @@ function gamePlay(){
 
         } 
         //Adds click eventListner to each button
-        for(var i = 0; i < quizQuestions.length; i++){
-            allButtons[i].addEventListener('click', choiceMade);
+        for(var y = 0; y < allButtons.length; y++){
+            allButtons[y].addEventListener('click', choiceMade);
 
         }
-        //iterates to the next question
-        qNum++;
     }
     else{
         console.log("END!");
@@ -98,6 +99,10 @@ function newQuestion(){
 
 //Each button has unique identier in order to determine correct answer
 function choiceMade(event){
+
+    localStorage.setItem('answers', JSON.stringify(quizQuestions[qNum].answer));
+    correctAnswers = JSON.parse(localStorage.getItem('answers'));
+    
     var userChoice = event.target.id;
     console.log(userChoice);
     console.log(correctAnswers);
@@ -108,6 +113,10 @@ function choiceMade(event){
     else{
         console.log("Wrong!");
     }
+
+    //iterates to the next question
+    qNum++;
+    console.log(qNum);
     gamePlay();
     
 }
