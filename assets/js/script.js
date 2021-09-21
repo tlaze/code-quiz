@@ -52,8 +52,7 @@ var allButtons = document.getElementsByClassName('choices');
 
 //Stores the quiz choices in local storage and retrives it with uniqueButton
 var uniqueButton = document.getElementsByTagName('choices');
-localStorage.setItem('choices', JSON.stringify(quizQuestions[qNum].choice));
-uniqueButton = JSON.parse(localStorage.getItem('choices'));
+
 
 //Stores correct answers in local storage and retrieves it as a string
 var correctAnswers = document.getElementsByName('answer');
@@ -63,6 +62,11 @@ correctAnswers = JSON.parse(localStorage.getItem('answers'));
 
 //Central hub where program is sent to other functions and returned 
 function gamePlay(){
+
+    //Updates local storage to update choices each round
+    localStorage.setItem('choices', JSON.stringify(quizQuestions[qNum].choice));
+    uniqueButton = JSON.parse(localStorage.getItem('choices'));
+
     //Continues until user reaches last question
     if(qNum < quizQuestions.length){
         newQuestion();
