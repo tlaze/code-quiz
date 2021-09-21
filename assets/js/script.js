@@ -62,6 +62,8 @@ var uniqueButton = document.getElementsByTagName('choices');
 //Stores correct answers in local storage and retrieves it as a string
 var correctAnswers = document.getElementsByName('answer');
 
+var answerConfirmation;
+
 
 //Central hub where program is sent to other functions and returned 
 function gamePlay(){
@@ -110,9 +112,14 @@ function choiceMade(event){
 
     if(userChoice === correctAnswers){
         console.log('correct!');
+        answerConfirmation = document.getElementsByClassName('answerConfirmation');
+        answerConfirmation[0].innerHTML = "Correct";    //Displays 'Correct when user answers correctly
+
+        
     }
     else{
-        console.log("Wrong!");
+        answerConfirmation = document.getElementsByClassName('answerConfirmation');
+        answerConfirmation[0].innerHTML = "Wrong!";    //Displays 'Correct when user answers correctly
     }
 
     //iterates to the next question
