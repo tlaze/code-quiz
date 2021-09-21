@@ -11,6 +11,7 @@ var showGamePage = document.getElementById('gamePage');
 // showGamePage.style.display = 'none'; Uncomment Later****
 
 
+
 var hideContent = document.getElementById('startingPage'); //Delete Later***
 hideContent.style.display = 'none'; //Delete LATER***
 
@@ -64,6 +65,8 @@ var correctAnswers = document.getElementsByName('answer');
 
 var answerConfirmation;
 
+var userScore = document.getElementById('score');
+
 
 //Central hub where program is sent to other functions and returned 
 function gamePlay(){
@@ -88,7 +91,7 @@ function gamePlay(){
         }
     }
     else{
-        console.log("END!");
+        enterHighscore();
     }
     
 }
@@ -107,26 +110,27 @@ function choiceMade(event){
     correctAnswers = JSON.parse(localStorage.getItem('answers'));
     
     var userChoice = event.target.id;
-    console.log(userChoice);
-    console.log(correctAnswers);
-
     if(userChoice === correctAnswers){
-        console.log('correct!');
-        answerConfirmation = document.getElementsByClassName('answerConfirmation');
-        answerConfirmation[0].innerHTML = "Correct";    //Displays 'Correct when user answers correctly
+
+        answerConfirmation = document.getElementById('answerConfirmation');
+        answerConfirmation.textContent = "Correct";    //Displays 'Correct when user answers correctly
 
         
     }
     else{
-        answerConfirmation = document.getElementsByClassName('answerConfirmation');
-        answerConfirmation[0].innerHTML = "Wrong!";    //Displays 'Correct when user answers correctly
+        answerConfirmation = document.getElementById('answerConfirmation');
+        answerConfirmation.textContent = "Wrong!";    //Displays 'Correct when user answers correctly
     }
 
     //iterates to the next question
     qNum++;
-    console.log(qNum);
     gamePlay();
     
+}
+
+function enterHighscore(){
+    showGamePage.style.display = 'none';
+    userScore.textContent = 'set it to timer';
 }
 
 
@@ -135,7 +139,6 @@ function choiceMade(event){
 
 //Commented out so I woudn't have to continue to hit start button to access quizGameplay()
 // function startButtonClicked(){
-//     var hideContent = document.getElementById('startingPage');
 
 //     if(hideContent.style.display ==='none'){
 //         hideContent.style.display = 'block';
