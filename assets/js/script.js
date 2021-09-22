@@ -232,6 +232,8 @@ function highscoreList(){
     localStorage.setItem('highScoreList', JSON.stringify(trackScores));
     var x = JSON.parse(localStorage.getItem('highScoreList'));
     console.log(x);
+
+    
     
 
     
