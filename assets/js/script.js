@@ -64,13 +64,23 @@ var uniqueButton = document.getElementsByTagName('choices');
 var correctAnswers = document.getElementsByName('answer');
 
 var answerConfirmation;
-var userScore = document.getElementById('score');
+var userScore = document.getElementById('finalScore');
 
 //Time at start of quiz
 var timer;
-var seconds = 3;
-var score;
-var deductScore = -1
+var seconds = 10 ;
+var score = document.getElementById('timer');
+var subtractScore = 2
+
+//Puts time in local storage and stores value in storedScore
+localStorage.setItem('userScore', JSON.stringify(seconds));
+var storedScore = JSON.parse(localStorage.getItem('userScore'));
+
+//Puts 
+localStorage.setItem('scoreDeducted', JSON.stringify(subtactScore));
+var deductScore = JSON.parse(localStorage.getItem('scoreDeducted'));
+
+
 
 
 //Central hub where program is sent to other functions and returned 
@@ -82,33 +92,9 @@ function gamePlay(){
 //Changes the text for each question
 function newQuestion(){
     // Stores the text for each question
-    var questionNumber = JSON.stringify(quizQuestions[qNum].question);
-    displayedQuestion.textContent = questionNumber;
+    displayedQuestion.textContent = JSON.stringify(quizQuestions[qNum].question);
 }
 
-//Each button has unique identier in order to determine correct answer
-function choiceMade(event){
-
-    localStorage.setItem('answers', JSON.stringify(quizQuestions[qNum].answer));
-    correctAnswers = JSON.parse(localStorage.getItem('answers'));
-    
-    var userChoice = event.target.id;
-    if(userChoice === correctAnswers){
-
-        answerConfirmation = document.getElementById('answerConfirmation');
-        answerConfirmation.textContent = "Correct";    //Displays 'Correct when user answers correctly
-   
-    }
-    else{
-        answerConfirmation = document.getElementById('answerConfirmation');
-        answerConfirmation.textContent = "Wrong!";    //Displays 'Correct when user answers correctly
-    }
-
-    //iterates to the next question
-    qNum++;
-    chooseAnswer();
-    
-}
 
 function chooseAnswer(){
     //Continues until user reaches last question
@@ -137,21 +123,63 @@ function chooseAnswer(){
         }   
 }
 
-function enterHighscore(){
-    showGamePage.style.display = 'none';
-    userScore.textContent = score;
+//Each button has unique identier in order to determine correct answer
+function choiceMade(event){
+
+    //Stores correct answer in localStorage
+    localStorage.setItem('answers', JSON.stringify(quizQuestions[qNum].answer));
+    correctAnswers = JSON.parse(localStorage.getItem('answers'));
+    
+    //Clicked button's id is stored
+    var userChoice = event.target.id;
+    
+    //Displays if button clicked matches the correct answer
+    if(userChoice === correctAnswers){
+
+        answerConfirmation = document.getElementById('answerConfirmation').textContent = "Correct";
+        // answerConfirmation.textContent = "Correct";    //Displays 'Correct' when user answers correctly
+   
+    }
+    else{
+        answerConfirmation = document.getElementById('answerConfirmation').textContent = "Wrong!";  //Displays 'Wrong' when user answers incorrectly    
+        
+        storedScore = localStorage.setItem('userScore', JSON.stringify(storedScore - deductScore));
+
+        console.log(storedScore);
+        
+    }
+
+    //iterates to the next question
+    qNum++;
+    chooseAnswer();
+    
 }
 
+//Displays results page and stores scores
+function enterHighscore(){
+    showGamePage.style.display = 'none';
+    // answerConfirmation.display = 'block'; Get to show on results page
+    userScore.textContent = JSON.parse(localStorage.getItem('userScore'));
+}
+
+//Sets timer and displays score
 function startTimer(){
+
+    //Sets and decrements the timer. Displays it on screen
     timer = setInterval(function(){
-        document.getElementById('timer').textContent = seconds;
         seconds--;
         
-        if(seconds < 0 || qNum === quizQuestions.length){
+        score.textContent = JSON.parse(localStorage.getItem('userScore'));
+        var time = JSON.parse(localStorage.getItem('userScore'));
+
+        //Ends when timer runs out or user answers all questions
+        if(time === 0 || qNum === quizQuestions.length){
+            console.log('time up');
             clearInterval(timer);
-            score = seconds + 1;    //If time runs out, score equals 0
+            // score = seconds + 1;    //If time runs out, score equals 0
             enterHighscore();
         }
+        //Timer continues as user goes through the quiz
         else{
             chooseAnswer();
         }
