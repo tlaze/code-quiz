@@ -2,6 +2,7 @@ var timer; //Declares setInterval variable
 var seconds = 80;   //Total amount of time/score for quiz
 var subtractScore = 9;  //Reduces score by 9 + 1
 var qNum = 0;   //Variable to cycle through questions
+var newScore;   //User's score everytime they finish a quiz
 
 //Links to initial button and starts game when clicked
 var quizButton = document.querySelector(".startButton");
@@ -38,8 +39,24 @@ var answerConfirmation = document.getElementById('answerConfirmation');
 //Displays the final score on results page
 var finalScore = document.getElementById('finalScore');
 
+//Links user input for initials
+var initials = document.getElementById("userInitials");
+
 //Links submit button on results page
 var highScores = document.getElementById('highscoreButton');
+
+//Links the ul on highscores.html
+var highScoreTable = document.getElementById('hsList');
+
+//Creates li's to add new scores
+var addScore = document.createElement('li');
+
+//Creates an Array of user scores and stores in localStorage
+var trackScores = localStorage.getItem('highScoreList'); 
+trackScores = trackScores ? trackScores.split(',') : [];
+
+var lastScore = localStorage.getItem('lastScore');
+lastScore = lastScore ? lastScore.split(',') : [];
 
 //Array of quiz
 var quizQuestions = 
@@ -178,29 +195,49 @@ function quizComplete(){
     toggleGamePage.style.display = 'none';
     finalScore.textContent = JSON.parse(localStorage.getItem('userScore'));
     highScores.addEventListener('click', enterScore);
+
 }
+
 
 //Stores user's initials and score in local storage as well as previous scores
 function enterScore(){
-    //Retrieves data from from localStorage and storse it in variable
-    var highscoreList = JSON.parse(localStorage.getItem("allScores"));
-    //Creates an array if localStorage is empty
-    if(highscoreList == null) highscoreList = [];
-    //Stores users input
-    var userInitials = document.getElementById("userInitials").value;
-    //Stores users score
-    var score = JSON.parse(localStorage.getItem('userScore'));
-    //Stores Object to add to new localStorage
-    var newScore = 
-    {
-        "initials": userInitials,
-        "score": score
-    };
-    //Puts items back into localStorage array
-    localStorage.setItem("newScore", JSON.stringify(newScore));
-    highscoreList.push(newScore);
-    localStorage.setItem("allScores", JSON.stringify(highscoreList));
-    alert("score saved");
+
+    newScore = JSON.parse(localStorage.getItem('userScore'));
+    console.log("New score added: " + newScore);
+
+    if(lastScore === 'null'){
+        console.log("null");
+        localStorage.setItem('lastScore', newScore.toString());
+    }
+    else{
+        console.log("Last Score: " + lastScore);
+
+        if(newScore > lastScore){
+            console.log("New Score is bigger than last score");        
+            trackScores.unshift(newScore);
+        }
+        else{
+            console.log("New Score is less than last score")
+            trackScores.push(newScore);
+        } 
+        localStorage.setItem('lastScore', newScore.toString());
+        localStorage.setItem('highScoreList', trackScores.toString());
+    }
+    highscoreList();
+
+}
+
+function highscoreList(){
+    console.log("at list");
+    localStorage.setItem('highScoreList', JSON.stringify(trackScores));
+    var x = JSON.parse(localStorage.getItem('highScoreList'));
+    console.log(x);
+    
+
+    
+
+
+
 }
 
 startGame();

@@ -31,6 +31,10 @@ body{
     padding:10px;   
 }
 
+#hsList{
+    list-style-position: inside;
+}
+
 
 footer{
     position:absolute;
