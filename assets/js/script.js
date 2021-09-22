@@ -64,36 +64,19 @@ var uniqueButton = document.getElementsByTagName('choices');
 var correctAnswers = document.getElementsByName('answer');
 
 var answerConfirmation;
-
 var userScore = document.getElementById('score');
+
+//Time at start of quiz
+var timer;
+var seconds = 3;
+var score;
+var deductScore = -1
 
 
 //Central hub where program is sent to other functions and returned 
 function gamePlay(){
-
-    //Continues until user reaches last question
-    if(qNum < quizQuestions.length){
-
-    //Updates local storage to update choices each round
-        localStorage.setItem('choices', JSON.stringify(quizQuestions[qNum].choice));
-        uniqueButton = JSON.parse(localStorage.getItem('choices'));
-        newQuestion();
-
-        //Assigns each choice button a unique possible answer
-        for(var i = 0; i < allButtons.length;i++){
-            allButtons[i].textContent = uniqueButton[i];
-
-        } 
-        //Adds click eventListner to each button
-        for(var y = 0; y < allButtons.length; y++){
-            allButtons[y].addEventListener('click', choiceMade);
-
-        }
-    }
-    else{
-        enterHighscore();
-    }
-    
+    startTimer();
+    chooseAnswer();
 }
 
 //Changes the text for each question
@@ -114,8 +97,7 @@ function choiceMade(event){
 
         answerConfirmation = document.getElementById('answerConfirmation');
         answerConfirmation.textContent = "Correct";    //Displays 'Correct when user answers correctly
-
-        
+   
     }
     else{
         answerConfirmation = document.getElementById('answerConfirmation');
@@ -124,13 +106,58 @@ function choiceMade(event){
 
     //iterates to the next question
     qNum++;
-    gamePlay();
+    chooseAnswer();
     
+}
+
+function chooseAnswer(){
+    //Continues until user reaches last question
+    if(qNum < quizQuestions.length && timer >= 0){
+
+        //Updates local storage to update choices each round
+            localStorage.setItem('choices', JSON.stringify(quizQuestions[qNum].choice));
+            uniqueButton = JSON.parse(localStorage.getItem('choices'));
+            newQuestion();
+    
+            //Assigns each choice button a unique possible answer
+            for(var i = 0; i < allButtons.length;i++){
+                allButtons[i].textContent = uniqueButton[i];
+    
+            } 
+            //Adds click eventListner to each button
+            for(var y = 0; y < allButtons.length; y++){
+                allButtons[y].addEventListener('click', choiceMade);
+    
+            }
+        }
+        else{
+            score = seconds + 1;    //Lets timer and final score display as same number if user answers before timer runs out
+            clearInterval(timer);
+            enterHighscore();
+        }   
 }
 
 function enterHighscore(){
     showGamePage.style.display = 'none';
-    userScore.textContent = 'set it to timer';
+    userScore.textContent = score;
+}
+
+function startTimer(){
+    timer = setInterval(function(){
+        document.getElementById('timer').textContent = seconds;
+        seconds--;
+        
+        if(seconds < 0 || qNum === quizQuestions.length){
+            clearInterval(timer);
+            score = seconds + 1;    //If time runs out, score equals 0
+            enterHighscore();
+        }
+        else{
+            chooseAnswer();
+        }
+        
+    }, 1000);
+
 }
 
 
@@ -149,4 +176,6 @@ function enterHighscore(){
 //         quizGameplay();
 //     }
 // }
+
+
 gamePlay();
