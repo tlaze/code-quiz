@@ -1,22 +1,57 @@
-//Assigns button variable to the startButton class
+//Links to initial button and starts game when clicked
 var quizButton = document.querySelector(".startButton");
+quizButton.addEventListener("click",startGame);
 
-//When the start button is clicked, the startButtonClicked function will run
-//quizButton.addEventListener("click",startButtonClicked);  Uncomment later****
+//Toggles between displaying each page
+var toggleGamePage = document.getElementById('gamePage');
+toggleGamePage.style.display = 'none';
 
-//Links gamePage ID to JS variable
-var showGamePage = document.getElementById('gamePage');
+var toggleStartingPage = document.getElementById('startingPage');
+toggleStartingPage.style.display = 'none';
 
-//Hides gamepage on initial start of application
-// showGamePage.style.display = 'none'; Uncomment Later****
+var toggleResultsPage = document.getElementById('resultsPage');
+toggleResultsPage.style.display = 'none';
 
 
+//Stores quizQuestions in local storage
+var displayedQuestion = document.getElementById('questionText');
 
-var hideContent = document.getElementById('startingPage'); //Delete Later***
-hideContent.style.display = 'none'; //Delete LATER***
+//Displays question in #questionText
+displayedQuestion.textContent = JSON.parse(localStorage.getItem("storedQuestion"));
 
+
+//Stores all possible choices per question into local storage
+var allButtons = document.getElementsByClassName('choices');
+
+//Stores the quiz choices in local storage and retrives it with uniqueButton
+var uniqueButton = document.getElementsByTagName('choices');
+
+
+//Stores correct answers in local storage and retrieves it as a string
+var correctAnswers = document.getElementsByName('answer');
+
+//Declaration displaying whether user answered right or wrong
+var answerConfirmation;
+
+//Puts final score at id
+var finalScore = document.getElementById('finalScore');
+
+//Time at start of quiz
+var timer;
+var seconds = 80;
+var subtractScore = 9;
+
+//Links to timer
+var score = document.getElementById('timer');
+
+//Puts time in local storage and stores value in storedScore
+localStorage.setItem('userScore', JSON.stringify(seconds));
+var storedScore = JSON.parse(localStorage.getItem('userScore'));
+
+//Question Number
 var qNum = 0;
 
+//Array of quiz
 var quizQuestions = 
 [
     {
@@ -46,43 +81,6 @@ var quizQuestions =
     },
 ]
 
-//Stores quizQuestions in local storage
-var displayedQuestion = document.getElementById('questionText');
-
-//Displays question in #questionText
-displayedQuestion.textContent = JSON.parse(localStorage.getItem("storedQuestion"));
-
-
-//Stores all possible choices per question into local storage
-var allButtons = document.getElementsByClassName('choices');
-
-//Stores the quiz choices in local storage and retrives it with uniqueButton
-var uniqueButton = document.getElementsByTagName('choices');
-
-
-//Stores correct answers in local storage and retrieves it as a string
-var correctAnswers = document.getElementsByName('answer');
-
-var answerConfirmation;
-var userScore = document.getElementById('finalScore');
-
-//Time at start of quiz
-var timer;
-var seconds = 10 ;
-var score = document.getElementById('timer');
-var subtractScore = 2
-
-//Puts time in local storage and stores value in storedScore
-localStorage.setItem('userScore', JSON.stringify(seconds));
-var storedScore = JSON.parse(localStorage.getItem('userScore'));
-
-//Puts 
-localStorage.setItem('scoreDeducted', JSON.stringify(subtactScore));
-var deductScore = JSON.parse(localStorage.getItem('scoreDeducted'));
-
-
-
-
 //Central hub where program is sent to other functions and returned 
 function gamePlay(){
     startTimer();
@@ -95,10 +93,11 @@ function newQuestion(){
     displayedQuestion.textContent = JSON.stringify(quizQuestions[qNum].question);
 }
 
-
+//Displays all choices for each question
 function chooseAnswer(){
+
     //Continues until user reaches last question
-    if(qNum < quizQuestions.length && timer >= 0){
+    if(qNum < quizQuestions.length && seconds >= 0){
 
         //Updates local storage to update choices each round
             localStorage.setItem('choices', JSON.stringify(quizQuestions[qNum].choice));
@@ -108,16 +107,15 @@ function chooseAnswer(){
             //Assigns each choice button a unique possible answer
             for(var i = 0; i < allButtons.length;i++){
                 allButtons[i].textContent = uniqueButton[i];
-    
             } 
             //Adds click eventListner to each button
             for(var y = 0; y < allButtons.length; y++){
                 allButtons[y].addEventListener('click', choiceMade);
-    
             }
         }
         else{
-            score = seconds + 1;    //Lets timer and final score display as same number if user answers before timer runs out
+            toggleGamePage.style.display = 'none';
+            toggleResultsPage.style.display = 'block';
             clearInterval(timer);
             enterHighscore();
         }   
@@ -136,30 +134,26 @@ function choiceMade(event){
     //Displays if button clicked matches the correct answer
     if(userChoice === correctAnswers){
 
-        answerConfirmation = document.getElementById('answerConfirmation').textContent = "Correct";
-        // answerConfirmation.textContent = "Correct";    //Displays 'Correct' when user answers correctly
+        answerConfirmation = document.getElementById('answerConfirmation');
+        answerConfirmation.textContent = "Correct";    //Displays 'Correct' when user answers correctly
    
     }
+    //Subtracts score/time by 10 if user guesses incorrectly. Also displays 'Wrong'
     else{
-        answerConfirmation = document.getElementById('answerConfirmation').textContent = "Wrong!";  //Displays 'Wrong' when user answers incorrectly    
-        
-        storedScore = localStorage.setItem('userScore', JSON.stringify(storedScore - deductScore));
-
-        console.log(storedScore);
-        
+        answerConfirmation = document.getElementById('answerConfirmation')
+        answerConfirmation.textContent = "Wrong!"; 
+        seconds = seconds - subtractScore;
+        score.textContent = JSON.parse(localStorage.getItem('userScore'));
     }
-
     //iterates to the next question
     qNum++;
-    chooseAnswer();
-    
+    chooseAnswer();  
 }
 
 //Displays results page and stores scores
 function enterHighscore(){
-    showGamePage.style.display = 'none';
-    // answerConfirmation.display = 'block'; Get to show on results page
-    userScore.textContent = JSON.parse(localStorage.getItem('userScore'));
+    answerConfirmation.display = 'block'; //Get to show on results page\
+    finalScore.textContent = JSON.parse(localStorage.getItem('userScore'));
 }
 
 //Sets timer and displays score
@@ -167,43 +161,32 @@ function startTimer(){
 
     //Sets and decrements the timer. Displays it on screen
     timer = setInterval(function(){
+        localStorage.setItem('userScore', JSON.stringify(seconds));
         seconds--;
-        
         score.textContent = JSON.parse(localStorage.getItem('userScore'));
-        var time = JSON.parse(localStorage.getItem('userScore'));
-
+        
         //Ends when timer runs out or user answers all questions
-        if(time === 0 || qNum === quizQuestions.length){
+        if(seconds < 0 || qNum === quizQuestions.length){
             console.log('time up');
             clearInterval(timer);
-            // score = seconds + 1;    //If time runs out, score equals 0
             enterHighscore();
-        }
-        //Timer continues as user goes through the quiz
-        else{
-            chooseAnswer();
-        }
-        
+        }   
     }, 1000);
 
 }
 
+//Hides quiz questions until button is clicked
+function startGame(){
 
-//Hides the starting page once the start quiz button is clicked
-
-
-//Commented out so I woudn't have to continue to hit start button to access quizGameplay()
-// function startButtonClicked(){
-
-//     if(hideContent.style.display ==='none'){
-//         hideContent.style.display = 'block';
-//     }
-//     else{
-//         showGamePage.style.display = 'block';
-//         hideContent.style.display = 'none';
-//         quizGameplay();
-//     }
-// }
+    if(toggleStartingPage.style.display ==='none'){
+        toggleStartingPage.style.display = 'block';
+    }
+    else{
+        toggleGamePage.style.display = 'block';
+        toggleStartingPage.style.display = 'none';
+        gamePlay();
+    }
+}
 
 
-gamePlay();
+startGame();
