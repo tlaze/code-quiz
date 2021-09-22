@@ -12,44 +12,33 @@ toggleStartingPage.style.display = 'none';
 var toggleResultsPage = document.getElementById('resultsPage');
 toggleResultsPage.style.display = 'none';
 
+var timer; //Declares setInterval variable
+var seconds = 80;   //Total amount of time/score for quiz
+var subtractScore = 9;  //Reduces score by 9 + 1
+var qNum = 0;   //Variable to cycle through questions
 
 //Stores quizQuestions in local storage
 var displayedQuestion = document.getElementById('questionText');
-
-//Displays question in #questionText
 displayedQuestion.textContent = JSON.parse(localStorage.getItem("storedQuestion"));
 
-
-//Stores all possible choices per question into local storage
+//Links all button choices
 var allButtons = document.getElementsByClassName('choices');
 
-//Stores the quiz choices in local storage and retrives it with uniqueButton
+//Links each button indiviually
 var uniqueButton = document.getElementsByTagName('choices');
 
-
-//Stores correct answers in local storage and retrieves it as a string
+//Links the correct answer in the array
 var correctAnswers = document.getElementsByName('answer');
 
-//Declaration displaying whether user answered right or wrong
-var answerConfirmation;
-
-//Puts final score at id
+//Displays the final score on results page
 var finalScore = document.getElementById('finalScore');
 
-//Time at start of quiz
-var timer;
-var seconds = 80;
-var subtractScore = 9;
-
-//Links to timer
+//Links to the timer displayed
 var score = document.getElementById('timer');
 
 //Puts time in local storage and stores value in storedScore
 localStorage.setItem('userScore', JSON.stringify(seconds));
 var storedScore = JSON.parse(localStorage.getItem('userScore'));
-
-//Question Number
-var qNum = 0;
 
 //Array of quiz
 var quizQuestions = 
@@ -130,7 +119,9 @@ function choiceMade(event){
     
     //Clicked button's id is stored
     var userChoice = event.target.id;
-    
+    //Declaration displaying whether user answered right or wrong
+    var answerConfirmation;
+
     //Displays if button clicked matches the correct answer
     if(userChoice === correctAnswers){
 
@@ -152,7 +143,6 @@ function choiceMade(event){
 
 //Displays results page and stores scores
 function enterHighscore(){
-    answerConfirmation.display = 'block'; //Get to show on results page\
     finalScore.textContent = JSON.parse(localStorage.getItem('userScore'));
 }
 
@@ -167,8 +157,9 @@ function startTimer(){
         
         //Ends when timer runs out or user answers all questions
         if(seconds < 0 || qNum === quizQuestions.length){
-            console.log('time up');
             clearInterval(timer);
+            toggleGamePage.style.display = 'none';
+            toggleResultsPage.style.display = 'block';
             enterHighscore();
         }   
     }, 1000);
@@ -187,6 +178,4 @@ function startGame(){
         gamePlay();
     }
 }
-
-
 startGame();
