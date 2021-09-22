@@ -7,10 +7,10 @@ nav>p{
 body{
     height:auto;
 }
-#startingPage{
+/* #startingPage{
     margin-top:150px;
     text-align: center;
-}
+} */
 
 .startButton{
     background-color:purple;
@@ -18,7 +18,7 @@ body{
     border-radius: 50px;
 }
 
-#gamePage, #resultsPage{
+#startingPage, #gamePage, #resultsPage, #highscorePage{
     margin-top:100px;
     text-align: center;
 }

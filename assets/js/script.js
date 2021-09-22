@@ -182,15 +182,21 @@ function quizComplete(){
 
 //Stores user's initials and score in local storage as well as previous scores
 function enterScore(){
+    //Retrieves data from from localStorage and storse it in variable
     var highscoreList = JSON.parse(localStorage.getItem("allScores"));
+    //Creates an array if localStorage is empty
     if(highscoreList == null) highscoreList = [];
+    //Stores users input
     var userInitials = document.getElementById("userInitials").value;
+    //Stores users score
     var score = JSON.parse(localStorage.getItem('userScore'));
+    //Stores Object to add to new localStorage
     var newScore = 
     {
         "initials": userInitials,
         "score": score
     };
+    //Puts items back into localStorage array
     localStorage.setItem("newScore", JSON.stringify(newScore));
     highscoreList.push(newScore);
     localStorage.setItem("allScores", JSON.stringify(highscoreList));
