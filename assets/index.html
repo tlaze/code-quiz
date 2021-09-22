@@ -11,8 +11,8 @@
 
 <header>
     <nav>
-        <a>View Highscores</a>
-        <p>Time: <span id ="timer">80</span></p>
+        <a href="../assets/highscores.html">View Highscores</a>
+        <p>Time: <span id ="timer"></span></p>
     </nav>
 </header>
 
@@ -27,7 +27,7 @@
         </section>
 
         <section id='gamePage'>
-            <h1 id='questionText'><b>Ready Set Go!</b></h1>
+            <h1 id='questionText'><b></b></h1>
             <button class="choices" id="1">button 1</button>
             <button class="choices" id='2'>button 2</button>
             <button class="choices" id='3'>button 3</button>
@@ -39,8 +39,8 @@
             <h1>All Done!</h1>
             <p>Your Final Score is: <span id="finalScore"></span></p>
             <label for="initials">Enter Initials</label>
-            <input type="text">
-            <input type="submit" value="Submit">
+            <input id="userInitials" type="text">
+            <input id="highscoreButton" type="submit" value="Submit">
         </section>
         
     </main> 
