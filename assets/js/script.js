@@ -39,9 +39,6 @@ var answerConfirmation = document.getElementById('answerConfirmation');
 //Displays the final score on results page
 var finalScore = document.getElementById('finalScore');
 
-//Links user input for initials
-var initials = document.getElementById("userInitials");
-
 //Links submit button on results page
 var highScores = document.getElementById('highscoreButton');
 
@@ -50,13 +47,9 @@ var highScoreTable = document.getElementById('hsList');
 
 //Creates li's to add new scores
 var addScore = document.createElement('li');
+ 
+var trackScores = {}
 
-//Creates an Array of user scores and stores in localStorage
-var trackScores = localStorage.getItem('highScoreList'); 
-trackScores = trackScores ? trackScores.split(',') : [];
-
-var lastScore = localStorage.getItem('lastScore');
-lastScore = lastScore ? lastScore.split(',') : [];
 
 //Array of quiz
 var quizQuestions = 
@@ -194,51 +187,22 @@ function quizComplete(){
     toggleResultsPage.style.display = 'block';
     toggleGamePage.style.display = 'none';
     finalScore.textContent = JSON.parse(localStorage.getItem('userScore'));
-    highScores.addEventListener('click', enterScore);
-
+    highScores.addEventListener('click', toHighScorePage);
 }
 
 
-//Stores user's initials and score in local storage as well as previous scores
-function enterScore(){
-
+//Stores user's initals and their score into local storage
+function toHighScorePage(){
+    location.href= "highscores.html";
+    
     newScore = JSON.parse(localStorage.getItem('userScore'));
-    console.log("New score added: " + newScore);
+    trackScores.score = newScore;
 
-    if(lastScore === 'null'){
-        console.log("null");
-        localStorage.setItem('lastScore', newScore.toString());
-    }
-    else{
-        console.log("Last Score: " + lastScore);
-
-        if(newScore > lastScore){
-            console.log("New Score is bigger than last score");        
-            trackScores.unshift(newScore);
-        }
-        else{
-            console.log("New Score is less than last score")
-            trackScores.push(newScore);
-        } 
-        localStorage.setItem('lastScore', newScore.toString());
-        localStorage.setItem('highScoreList', trackScores.toString());
-    }
-    highscoreList();
-
-}
-
-function highscoreList(){
-    console.log("at list");
+    
+    var displayedInitials = document.getElementById("userInitials").value;
+    trackScores.initials = displayedInitials;
+    
     localStorage.setItem('highScoreList', JSON.stringify(trackScores));
-    var x = JSON.parse(localStorage.getItem('highScoreList'));
-    console.log(x);
-
-    
-    
-
-    
-
-
 
 }
 
