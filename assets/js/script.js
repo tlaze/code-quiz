@@ -60,7 +60,6 @@ viewScores.addEventListener("click", function(){
     }
 })
 
-var trackScores = []
 
 
 //Array of quiz
@@ -196,6 +195,10 @@ function choiceMade(event){
     chooseAnswer();  
 }
 
+var trackScores = {
+    name: document.getElementById("userInitials").value,
+    score: JSON.parse(localStorage.getItem('userScore')),
+}
 //Displays results page and stores user's score
 function quizComplete(){
     toggleResultsPage.style.display = 'block';
@@ -205,12 +208,14 @@ function quizComplete(){
     highScores.addEventListener('click', function(){
 
         var newScore = JSON.parse(localStorage.getItem('userScore'));
-        trackScores.push(newScore);
+        // trackScores.push(newScore);
 
         var displayedInitials = document.getElementById("userInitials").value;
-        trackScores.unshift(displayedInitials);
+        // trackScores.unshift(displayedInitials);
         
-        localStorage.setItem('highScoreList', JSON.stringify(trackScores));
+        localStorage.setItem('userInitials', displayedInitials);
+
+
         toggleResultsPage.style.display = "none";
         toggleHighscorePage.style.display = "block";
         viewScores.textContent = "Play Again?";
@@ -221,14 +226,15 @@ function quizComplete(){
 //adds and removes scores from list
 function createHighScores(){
 
-    var view = localStorage.getItem('highScoreList');
-    view.split(',');
+    var names = localStorage.getItem('userInitials');
+    var scores = localStorage.getItem('userScore');
+;
     var scoreList = document.createElement("LI");
-    var listText = document.createTextNode(view);
+    var listText = document.createTextNode(names + ": " + scores);
     scoreList.appendChild(listText);
 
     var count = 0;
-    for(var i = 0; i < (localStorage.length / 2); i++){
+    for(var i = 0; i < 10; i++){
         document.getElementById("rankings").appendChild(scoreList);
         count++;
     }   
