@@ -208,19 +208,29 @@ function quizComplete(){
 function createHighScores(){
 
     var view = localStorage.getItem('highScoreList');
+    view.split(',');
+    console.log(view);
+    console.log(localStorage.length);
 
     var scoreList = document.createElement("LI");
     var listText = document.createTextNode(view);
     scoreList.appendChild(listText);
-    for(var i = 0; i < view.length; i++){
-        document.getElementById("rankings").appendChild(scoreList);
 
+    var count = 0;
+    for(var i = 0; i < (localStorage.length / 2); i++){
+        document.getElementById("rankings").appendChild(scoreList);
+        count++;
     }   
 
     var deleteHighScores = document.querySelector('#eraseScores');
-
     deleteHighScores.addEventListener('click',function(){
-        document.getElementById("rankings").removeChild(scoreList);
+        if(count > 1){
+            document.getElementById("rankings").removeChild(scoreList);
+        }
+        else{
+            alert("Already Cleared");
+
+        }
         })
 }   
 
