@@ -46,7 +46,20 @@ var finalScore = document.getElementById('finalScore');
 //Links submit button on results page
 var highScores = document.getElementById('highscoreButton');
 
- 
+var viewScores = document.getElementById("highScoreLink"); 
+viewScores.addEventListener("click", function(){
+    if(toggleHighscorePage.style.display === "block"){
+        playAgain();
+    }
+    else{
+        toggleGamePage.style.display = "none";
+        toggleResultsPage.style.display = "none";
+        toggleStartingPage.style.display = "none";
+        toggleHighscorePage.style.display = "block";
+        viewScores.textContent = "Play Again?";
+    }
+})
+
 var trackScores = []
 
 
@@ -54,28 +67,28 @@ var trackScores = []
 var quizQuestions = 
 [
     {
-    'question': 'question 1 text',
-    'choice': ['q1 choice 1', 'q1 choice 2', 'q1 choice 3', 'q1 choice 4'],
+    'question': 'What do you wrap around Strings?',
+    'choice': ['Brackets', 'Curly Brackets', 'Hypens', 'Quotes'],
     'answer': '4'
     },
     {
-    'question': 'question 2 text',
-    'choice': ['q2 choice 1', 'q2 choice 2', 'q2 choice 3', 'q2 choice 4'],
+    'question': 'How do you increment by 1?',
+    'choice': ['variable + variable', 'variable = + 1', 'variable+', 'Variable++'],
     'answer': '4' 
     },
     {
-    'question': 'question 3 text',
-    'choice': ['q3 choice 1', 'q3 choice 2', 'q3 choice 3', 'q3 choice 4'],
+    'question': 'What is the "Skeleton" of the Website',
+    'choice': ['Javascript', 'CSS', 'HTML', 'Humerus'],
     'answer': '3' 
     },
     {
-    'question': 'question 4 text',
-    'choice': ['q4 choice 1', 'q4 choice 2', 'q4 choice 3', 'q4 choice 4'],
+    'question': 'What tag do you use to link a Javascript File',
+    'choice': ['link', 'script', 'a', 'href'],
     'answer': '2' 
     },
     {
-    'question': 'question 5 text',
-    'choice': ['q5 choice 1', 'q5 choice 2', 'q5 choice 3', 'q5 choice 4'],
+    'question': 'Will you give me a good grade for this?',
+    'choice': ['ABSOLUTELY', 'no..', 'Please this was hard!', 'Choose A'],
     'answer': '1' 
     },
 ]
@@ -200,6 +213,7 @@ function quizComplete(){
         localStorage.setItem('highScoreList', JSON.stringify(trackScores));
         toggleResultsPage.style.display = "none";
         toggleHighscorePage.style.display = "block";
+        viewScores.textContent = "Play Again?";
         createHighScores();
     });
 }
@@ -220,15 +234,17 @@ function createHighScores(){
     }   
 
     var deleteHighScores = document.querySelector('#eraseScores');
+
     deleteHighScores.addEventListener('click',function(){
         if(count > 1){
             document.getElementById("rankings").removeChild(scoreList);
         }
-        else{
-            alert("Already Cleared");
+    });    
 
-        }
-        })
-}   
+}
+
+function playAgain(){
+    location.reload();
+}
 
 startGame();
