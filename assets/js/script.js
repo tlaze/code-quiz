@@ -195,26 +195,15 @@ function choiceMade(event){
     chooseAnswer();  
 }
 
-var trackScores = {
-    name: document.getElementById("userInitials").value,
-    score: JSON.parse(localStorage.getItem('userScore')),
-}
+
 //Displays results page and stores user's score
 function quizComplete(){
     toggleResultsPage.style.display = 'block';
     toggleGamePage.style.display = 'none';
     finalScore.textContent = JSON.parse(localStorage.getItem('userScore'));
     
+    highScores.addEventListener('click', saveScore)
     highScores.addEventListener('click', function(){
-
-        var newScore = JSON.parse(localStorage.getItem('userScore'));
-        // trackScores.push(newScore);
-
-        var displayedInitials = document.getElementById("userInitials").value;
-        // trackScores.unshift(displayedInitials);
-        
-        localStorage.setItem('userInitials', displayedInitials);
-
 
         toggleResultsPage.style.display = "none";
         toggleHighscorePage.style.display = "block";
@@ -223,11 +212,45 @@ function quizComplete(){
     });
 }
 
+
+function saveScore(){
+
+
+
+    
+    var displayedInitials = document.getElementById("userInitials").value;
+    localStorage.setItem('userInitials', displayedInitials);
+        
+    var newScore = JSON.parse(localStorage.getItem('userScore'));
+    
+
+    
+    // trackScores.push(newScore);
+    
+    // trackScores.unshift(displayedInitials);
+    
+    var nameArray = [];
+    var scoreArray = [];
+    
+    console.log(nameArray);
+    console.log(scoreArray);
+    
+   
+    
+    nameArray.push(displayedInitials);
+    scoreArray.push(newScore);
+    
+    localStorage.setItem('userInitials', nameArray);
+    localStorage.setItem('savedScore',scoreArray);
+    
+
+}
+
 //adds and removes scores from list
 function createHighScores(){
 
     var names = localStorage.getItem('userInitials');
-    var scores = localStorage.getItem('userScore');
+    var scores = localStorage.getItem('savedScore');
 ;
     var scoreList = document.createElement("LI");
     var listText = document.createTextNode(names + ": " + scores);
