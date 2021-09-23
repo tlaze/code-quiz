@@ -209,9 +209,6 @@ function createHighScores(){
 
     var view = localStorage.getItem('highScoreList');
     view.split(',');
-    console.log(view);
-    console.log(localStorage.length);
-
     var scoreList = document.createElement("LI");
     var listText = document.createTextNode(view);
     scoreList.appendChild(listText);
