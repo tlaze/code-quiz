@@ -7,6 +7,7 @@ var qNum = 0;   //Variable to cycle through questions
 var quizButton = document.getElementById('startButton');
 quizButton.addEventListener('click', startGame);
 
+var viewToggler = document.getElementById('highScoreLink');
 
 //Toggles between displaying each page
 var toggleStartingPage = document.getElementById('startingPage');
@@ -84,6 +85,8 @@ function startGame(){
 
     if(toggleStartingPage.style.display ==='none'){
         toggleStartingPage.style.display = 'block';
+        toggleResultsPage.style.display = "none";
+        toggleHighscorePage.style.display = "none";
     }
     else{
         toggleGamePage.style.display = 'block';
@@ -195,18 +198,13 @@ function quizComplete(){
         trackScores.unshift(displayedInitials);
         
         localStorage.setItem('highScoreList', JSON.stringify(trackScores));
-        createHighScores();
-    });
-
-    highScores.addEventListener('click', function(){
-
         toggleResultsPage.style.display = "none";
         toggleHighscorePage.style.display = "block";
-        toHighScorePage();
-
+        createHighScores();
     });
 }
 
+//adds and removes scores from list
 function createHighScores(){
 
     var view = localStorage.getItem('highScoreList');
@@ -214,17 +212,16 @@ function createHighScores(){
     var scoreList = document.createElement("LI");
     var listText = document.createTextNode(view);
     scoreList.appendChild(listText);
-    document.getElementById("rankings").appendChild(scoreList);
+    for(var i = 0; i < view.length; i++){
+        document.getElementById("rankings").appendChild(scoreList);
 
-}
+    }   
 
+    var deleteHighScores = document.querySelector('#eraseScores');
 
-//Stores user's initals and their score into local storage
-function toHighScorePage(){
-    highScoreLink.addEventListener('click', function(){
-        toggleStartingPage.style.display = 'none'
-        toggleHighscorePage.style.display = 'block';
-    })
+    deleteHighScores.addEventListener('click',function(){
+        document.getElementById("rankings").removeChild(scoreList);
+        })
+}   
 
-}
 startGame();
