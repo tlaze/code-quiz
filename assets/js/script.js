@@ -4,8 +4,9 @@ var subtractScore = 9;  //Reduces score by 9 + 1
 var qNum = 0;   //Variable to cycle through questions
 
 //Links to initial button and starts game when clicked
-var quizButton = document.querySelector(".startButton");
-quizButton.addEventListener("click",startGame);
+var quizButton = document.getElementById('startButton');
+quizButton.addEventListener('click', startGame);
+
 
 //Toggles between displaying each page
 var toggleStartingPage = document.getElementById('startingPage');
@@ -16,6 +17,9 @@ toggleGamePage.style.display = 'none';
 
 var toggleResultsPage = document.getElementById('resultsPage');
 toggleResultsPage.style.display = 'none';
+
+var toggleHighscorePage = document.getElementById('highscorePage');
+toggleHighscorePage.style.display = 'none';
 
 //Links to the timer displayed
 var score = document.getElementById('timer');
@@ -191,42 +195,36 @@ function quizComplete(){
         trackScores.unshift(displayedInitials);
         
         localStorage.setItem('highScoreList', JSON.stringify(trackScores));
-        
         createHighScores();
     });
 
     highScores.addEventListener('click', function(){
 
-        location.href= "highscores.html";
+        toggleResultsPage.style.display = "none";
+        toggleHighscorePage.style.display = "block";
+        toHighScorePage();
 
     });
 }
 
 function createHighScores(){
-    
+
     var view = localStorage.getItem('highScoreList');
-    alert(view);
- 
-    
+
+    var scoreList = document.createElement("LI");
+    var listText = document.createTextNode(view);
+    scoreList.appendChild(listText);
+    document.getElementById("rankings").appendChild(scoreList);
 
 }
+
 
 //Stores user's initals and their score into local storage
 function toHighScorePage(){
-    
-    localStorage.setItem('highScoreList', JSON.stringify(trackScores));
-    
-    var x = localStorage.getItem('highScoreList');
-    console.log(x.split(" "));
-    console.log(x);
-
-
- 
+    highScoreLink.addEventListener('click', function(){
+        toggleStartingPage.style.display = 'none'
+        toggleHighscorePage.style.display = 'block';
+    })
 
 }
-
-function newFunction(){
-    alert("asdfsa");
-}
-
 startGame();

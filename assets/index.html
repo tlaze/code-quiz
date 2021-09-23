@@ -11,7 +11,7 @@
 
 <header>
     <nav>
-        <a href="../assets/highscores.html">View Highscores</a>
+        <button id="highScoreLink" href="#">View Highscores</button>
         <p>Time: <span id ="timer">80</span></p>
     </nav>
 </header>
@@ -23,7 +23,7 @@
             <h5>Try to answer the followng code-related questions within the time limit.<br>Keep in 
                 mind that incorrect answers will penalize your score/time by<br>ten seconds!
             </h5>
-            <button class='startButton'>Start Quiz</button>
+            <button id='startButton'>Start Quiz</button>
         </section>
 
         <section id='gamePage'>
@@ -42,6 +42,12 @@
             <input id="userInitials" type="text"></input>
             <input id="highscoreButton" type="submit" value="Submit"></input>
         </section>
+
+        <section id="highscorePage">
+            <h1>Highscores!</h1>
+            <ol id="rankings"></ol>
+            <button>Clear Scores</button>
+        </section>
         
     </main> 
 </body>
@@ -49,5 +55,5 @@
 <footer>
     <h6>Made By Tom | 2021</h6>
 </footer>
-<script src='js/script.js'></script>
+<script src="js/script.js"></script>
 </html>
