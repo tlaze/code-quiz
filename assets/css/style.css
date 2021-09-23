@@ -7,10 +7,10 @@ nav>p{
 body{
     height:auto;
 }
-/* #startingPage{
+#startingPage{
     margin-top:150px;
     text-align: center;
-} */
+}
 
 .startButton{
     background-color:purple;

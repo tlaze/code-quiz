@@ -2,7 +2,6 @@ var timer; //Declares setInterval variable
 var seconds = 80;   //Total amount of time/score for quiz
 var subtractScore = 9;  //Reduces score by 9 + 1
 var qNum = 0;   //Variable to cycle through questions
-var newScore;   //User's score everytime they finish a quiz
 
 //Links to initial button and starts game when clicked
 var quizButton = document.querySelector(".startButton");
@@ -42,13 +41,8 @@ var finalScore = document.getElementById('finalScore');
 //Links submit button on results page
 var highScores = document.getElementById('highscoreButton');
 
-//Links the ul on highscores.html
-var highScoreTable = document.getElementById('hsList');
-
-//Creates li's to add new scores
-var addScore = document.createElement('li');
  
-var trackScores = {}
+var trackScores = []
 
 
 //Array of quiz
@@ -187,23 +181,52 @@ function quizComplete(){
     toggleResultsPage.style.display = 'block';
     toggleGamePage.style.display = 'none';
     finalScore.textContent = JSON.parse(localStorage.getItem('userScore'));
-    highScores.addEventListener('click', toHighScorePage);
+    
+    highScores.addEventListener('click', function(){
+
+        var newScore = JSON.parse(localStorage.getItem('userScore'));
+        trackScores.push(newScore);
+
+        var displayedInitials = document.getElementById("userInitials").value;
+        trackScores.unshift(displayedInitials);
+        
+        localStorage.setItem('highScoreList', JSON.stringify(trackScores));
+        
+        createHighScores();
+    });
+
+    highScores.addEventListener('click', function(){
+
+        location.href= "highscores.html";
+
+    });
 }
 
+function createHighScores(){
+    
+    var view = localStorage.getItem('highScoreList');
+    alert(view);
+ 
+    
+
+}
 
 //Stores user's initals and their score into local storage
 function toHighScorePage(){
-    location.href= "highscores.html";
-    
-    newScore = JSON.parse(localStorage.getItem('userScore'));
-    trackScores.score = newScore;
-
-    
-    var displayedInitials = document.getElementById("userInitials").value;
-    trackScores.initials = displayedInitials;
     
     localStorage.setItem('highScoreList', JSON.stringify(trackScores));
+    
+    var x = localStorage.getItem('highScoreList');
+    console.log(x.split(" "));
+    console.log(x);
 
+
+ 
+
+}
+
+function newFunction(){
+    alert("asdfsa");
 }
 
 startGame();
