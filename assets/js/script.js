@@ -60,8 +60,6 @@ viewScores.addEventListener("click", function(){
     }
 })
 
-
-
 //Array of quiz
 var quizQuestions = 
 [
@@ -212,62 +210,53 @@ function quizComplete(){
     });
 }
 
-
+//Stores user score and initials into an object and sends it to function to store in local storage
 function saveScore(){
 
-
-
-    
     var displayedInitials = document.getElementById("userInitials").value;
     localStorage.setItem('userInitials', displayedInitials);
         
     var newScore = JSON.parse(localStorage.getItem('userScore'));
-    
 
-    
-    // trackScores.push(newScore);
-    
-    // trackScores.unshift(displayedInitials);
-    
-    var nameArray = [];
-    var scoreArray = [];
-    
-    console.log(nameArray);
-    console.log(scoreArray);
-    
-   
-    
-    nameArray.push(displayedInitials);
-    scoreArray.push(newScore);
-    
-    localStorage.setItem('userInitials', nameArray);
-    localStorage.setItem('savedScore',scoreArray);
-    
-
+    var scoreObj = {
+        initials: displayedInitials,
+        score: newScore,
+    }
+    toLocalStorage(scoreObj); 
 }
 
+//Creates an array of scoreOjb and adds new results every time score is entered. If localStorage is empty, an empty bracket is added
+function toLocalStorage(highscore){
+    var resultsArray = JSON.parse(localStorage.getItem('results'));
+    if(resultsArray == null){
+        localStorage.setItem('results',JSON.stringify([]));
+        toLocalStorage(highscore);
+    }
+    resultsArray.push(highscore);
+    localStorage.setItem('results', JSON.stringify(resultsArray));
+
+}
 //adds and removes scores from list
 function createHighScores(){
+    
+    var ranking =JSON.parse(localStorage.getItem('results'));
 
-    var names = localStorage.getItem('userInitials');
-    var scores = localStorage.getItem('savedScore');
-;
-    var scoreList = document.createElement("LI");
-    var listText = document.createTextNode(names + ": " + scores);
-    scoreList.appendChild(listText);
+    //Adds new highscore
+    for(var i = 0; i<ranking.length; i++){
+        var scoreList = document.createElement("LI");
+        var listText = document.createTextNode(ranking[i].initials + ": "  + ranking[i].score);
+        scoreList.appendChild(listText);
+        document.getElementById('rankings').appendChild(scoreList);
+    }
 
-    var count = 0;
-    for(var i = 0; i < 10; i++){
-        document.getElementById("rankings").appendChild(scoreList);
-        count++;
-    }   
-
+    //Delete highscores from local Storage
     var deleteHighScores = document.querySelector('#eraseScores');
-
     deleteHighScores.addEventListener('click',function(){
-        if(count > 1){
-            document.getElementById("rankings").removeChild(scoreList);
+        var element = document.getElementById('rankings');
+        while(element.firstChild){
+            element.removeChild(element.firstChild);
         }
+        localStorage.clear();
     });    
 
 }
