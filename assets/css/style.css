@@ -6,7 +6,9 @@ nav>p{
 
 body{
     height:auto;
+    margin:0;
 }
+
 #startingPage{
     margin-top:150px;
     text-align: center;
@@ -20,6 +22,7 @@ body{
 
 #startingPage, #gamePage, #resultsPage, #highscorePage{
     margin-top:100px;
+    margin-bottom:100px;
     text-align: center;
 }
 
@@ -32,15 +35,13 @@ body{
 }
 
 .choices{
-    width: 100px;
-    padding:0;
-    height: 50px;
+    width: 200px;
+    height: 40px;
 }
 
 #rankings{
     list-style-position: inside;
 }
-
 
 footer{
     position:absolute;
