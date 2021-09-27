@@ -162,7 +162,9 @@ function chooseAnswer(){
         }
         else{
             clearInterval(timer);
-            quizComplete();
+            setTimeout (function(){
+                quizComplete();
+            }, 500);
         }   
 }
 
@@ -178,21 +180,29 @@ function choiceMade(event){
 
     //Displays if button clicked matches the correct answer
     if(userAnswer === correctAnswers){
-        answerConfirmation.style.marginBottom = "10px";
-        answerConfirmation.textContent = "Correct";    //Displays 'Correct' when user answers correctly
+        answerConfirmation.textContent = "Correct";    //Displays 'Correct' when user answers correctly for half a second
+        var onlyClickOnce;
+        onlyClickOnce = clearTimeout(onlyClickOnce);
+        setTimeout (function(){
+            answerConfirmation.textContent = " ";
+        }, 500);
     }
 
     //Subtracts score/time by 10 if user guesses incorrectly. Also displays 'Wrong'
     else{
-        answerConfirmation.style.marginBottom = "10px";
-        answerConfirmation.textContent = "Wrong!"; 
+        answerConfirmation.textContent = "Wrong!";
+        var onlyClickOnce;
+        clearTimeout(onlyClickOnce);
+        onlyClickOnce = setTimeout (function(){
+            answerConfirmation.textContent = " ";
+        }, 500);
         seconds = seconds - subtractScore;
         localStorage.setItem('userScore', JSON.stringify(seconds));
         score.textContent = JSON.parse(localStorage.getItem('userScore'));
     }
     //iterates to the next question
     qNum++;
-    chooseAnswer();  
+    chooseAnswer();
 }
 
 
@@ -234,8 +244,10 @@ function toLocalStorage(highscore){
         localStorage.setItem('results',JSON.stringify([]));
         toLocalStorage(highscore);
     }
-    resultsArray.push(highscore);
-    localStorage.setItem('results', JSON.stringify(resultsArray));
+    else{
+        resultsArray.push(highscore);
+        localStorage.setItem('results', JSON.stringify(resultsArray));
+    }
 
 }
 //adds and removes scores from list
