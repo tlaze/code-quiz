@@ -178,11 +178,13 @@ function choiceMade(event){
 
     //Displays if button clicked matches the correct answer
     if(userAnswer === correctAnswers){
+        answerConfirmation.style.marginBottom = "10px";
         answerConfirmation.textContent = "Correct";    //Displays 'Correct' when user answers correctly
     }
 
     //Subtracts score/time by 10 if user guesses incorrectly. Also displays 'Wrong'
     else{
+        answerConfirmation.style.marginBottom = "10px";
         answerConfirmation.textContent = "Wrong!"; 
         seconds = seconds - subtractScore;
         localStorage.setItem('userScore', JSON.stringify(seconds));

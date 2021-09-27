@@ -5,7 +5,7 @@ nav>p{
 }
 
 body{
-    height:auto;
+    height: 100%;
     margin:0;
 }
 
@@ -32,6 +32,7 @@ body{
     margin-right:auto;
     margin-top:35px;
     padding:10px;   
+    margin-bottom: 10px;
 }
 
 .choices{
@@ -41,14 +42,31 @@ body{
 
 #rankings{
     list-style-position: inside;
+    position: relative;
+    right: 20px;
 }
 
 footer{
     position:absolute;
-    bottom:0;
+    bottom:1px;
     width:100%;
+    margin-bottom: 0;
 }
 
 footer h6{
     text-align: center;
 }
+
+@media only screen and (max-width: 600px) {
+    footer div {
+        display: none;
+    }
+
+    #userInitials{
+        margin-top: 10px;
+    }
+
+   #highscoreButton{
+       margin-top: 20px;
+   } 
+  }
