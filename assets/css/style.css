@@ -34,6 +34,7 @@ body{
 .choices{
     width: 100px;
     padding:0;
+    height: 50px;
 }
 
 #rankings{

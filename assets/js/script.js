@@ -240,6 +240,7 @@ function toLocalStorage(highscore){
 function createHighScores(){
     
     var ranking =JSON.parse(localStorage.getItem('results'));
+    ranking.sort((a,b)=>(b.score)-(a.score));
 
     //Adds new highscore
     for(var i = 0; i<ranking.length; i++){
