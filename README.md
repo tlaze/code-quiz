@@ -1,7 +1,3 @@
-# code-quiz
- Homework 4 for Georgia Tech Coding Bootcamp
-
-
 ##Code-Quiz
 
 Starts multiple choice quiz with the click of a button
